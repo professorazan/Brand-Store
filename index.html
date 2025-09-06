@@ -1,100 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Brand Store — Classic TWS Earbuds</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand Store - TWS Earbuds</title>
   <style>
-    :root{
-      --bg:#f7f5f2;
-      --paper:#ffffff;
-      --accent:#0b3d91;
-      --muted:#6b6b6b;
-      --radius:12px;
-      --shadow: 0 6px 18px rgba(11,61,145,0.08);
+    :root {
+      --bg: #ffffff;
+      --card: #f9f9f9;
+      --accent: #0066cc;
+      --text: #333;
+      --muted: #666;
+      --radius: 14px;
+      --shadow: 0 6px 18px rgba(0,0,0,0.08);
     }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:#111;font-family:Inter,Arial,sans-serif;line-height:1.5}
-    .container{max-width:1100px;margin:0 auto;padding:0 20px}
-    header{background:#fff;box-shadow:var(--shadow);position:sticky;top:0;z-index:50}
-    header .container{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
-    .brand{font-size:22px;font-weight:700;color:var(--accent)}
-    nav a{margin:0 10px;color:var(--muted);text-decoration:none;font-weight:600}
-    .hero{padding:40px 0;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
-    .hero h1{font-size:32px;color:var(--accent);margin-bottom:10px}
-    .subtitle{color:var(--muted);margin-bottom:20px}
-    .btn{padding:12px 18px;border-radius:8px;font-weight:600;text-decoration:none;display:inline-block;margin-right:10px}
-    .btn.primary{background:var(--accent);color:#fff}
-    .btn.ghost{border:1px solid var(--accent);color:var(--accent);background:transparent}
-    .slider{border-radius:12px;overflow:hidden;box-shadow:var(--shadow);position:relative}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+    /* Header */
+    header{background:#fff;padding:18px 20px;box-shadow:var(--shadow);position:sticky;top:0;z-index:50}
+    header .brand{font-size:24px;font-weight:bold;color:var(--accent)}
+    header nav{float:right}
+    header nav a{color:var(--text);margin-left:18px;text-decoration:none;font-weight:600}
+    header nav a:hover{color:var(--accent)}
+
+    /* Hero Slider */
+    .hero{position:relative;overflow:hidden}
     .slide{display:none}
-    .slide img{width:100%;display:block}
-    .product{padding:40px 0;display:grid;grid-template-columns:1fr 1fr;gap:30px}
-    .product img{width:100%;border-radius:12px;box-shadow:var(--shadow)}
-    .price{font-size:20px;font-weight:700;margin:10px 0;color:#222}
-    .features{list-style:disc;padding-left:20px;margin:10px 0;color:var(--muted)}
-    footer{text-align:center;padding:20px;color:var(--muted);margin-top:40px;background:#fff;box-shadow:var(--shadow)}
-    .floating-ws{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;font-size:24px;
-      width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-      box-shadow:0 6px 20px rgba(0,0,0,.2);text-decoration:none}
-    @media(max-width:768px){.hero,.product{grid-template-columns:1fr}}
+    .slide img{width:100%;height:400px;object-fit:cover;display:block;border-radius:0 0 var(--radius) var(--radius)}
+    .hero-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;background:rgba(255,255,255,0.8);padding:20px;border-radius:var(--radius)}
+    .hero-text h1{font-size:32px;color:var(--accent);margin-bottom:10px}
+    .hero-text p{color:var(--text);margin-bottom:20px}
+    .btn{padding:12px 20px;border-radius:var(--radius);text-decoration:none;font-weight:600;cursor:pointer}
+    .btn.primary{background:var(--accent);color:#fff;margin-right:10px}
+    .btn.secondary{border:1px solid var(--accent);color:var(--accent);background:#fff}
+
+    /* Product Section */
+    .products{padding:60px 20px;max-width:1100px;margin:auto}
+    .products h2{text-align:center;margin-bottom:30px;font-size:28px;color:var(--accent)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+    .card{background:var(--card);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow);transition:transform .3s}
+    .card:hover{transform:translateY(-5px)}
+    .card img{width:100%;border-radius:var(--radius);margin-bottom:15px}
+    .card h3{margin-bottom:8px;color:var(--accent)}
+    .card p{color:var(--muted);margin-bottom:12px;font-size:14px}
+
+    /* Footer */
+    footer{background:#f1f1f1;padding:30px 20px;margin-top:40px}
+    footer .container{max-width:1100px;margin:auto;display:flex;justify-content:space-between;flex-wrap:wrap}
+    footer .col{flex:1;min-width:200px;margin:10px 0}
+    footer h4{color:var(--accent);margin-bottom:10px}
+    footer ul{list-style:none}
+    footer ul li{margin-bottom:6px}
+    footer ul li a{color:var(--text);text-decoration:none}
+    footer ul li a:hover{color:var(--accent)}
+    footer .bottom{text-align:center;color:var(--muted);margin-top:20px;font-size:14px}
+
+    /* WhatsApp Button */
+    .whatsapp-btn{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;
+      border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;
+      font-size:28px;text-decoration:none;box-shadow:0 0 15px rgba(0,0,0,.3)}
+
+    @media(max-width:768px){
+      .hero-text h1{font-size:22px}
+      .hero-text p{font-size:13px}
+      .slide img{height:250px}
+    }
   </style>
 </head>
 <body>
+
+  <!-- Header -->
   <header>
-    <div class="container">
-      <div class="brand">Brand Store</div>
-      <nav>
-        <a href="#product">Product</a>
-        <a href="#details">Details</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
+    <div class="brand">Brand Store</div>
+    <nav>
+      <a href="#products">Products</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </header>
 
-  <section class="hero container">
-    <div>
-      <h1>Classic Premium TWS Earbuds</h1>
-      <p class="subtitle">Elegant design • Rich sound • Long battery life</p>
-      <a class="btn primary" href="https://wa.me/923469531271" target="_blank">Buy Now</a>
-      <a class="btn ghost" href="#product">See Details</a>
-    </div>
-    <div class="slider">
-      <div class="slide"><img src="https://i.ibb.co/7z6PcQn/earbuds1.jpg" alt="Earbuds 1"></div>
-      <div class="slide"><img src="https://i.ibb.co/tz0tb9z/earbuds2.jpg" alt="Earbuds 2"></div>
-      <div class="slide"><img src="https://i.ibb.co/d23jsn3/earbuds3.jpg" alt="Earbuds 3"></div>
-    </div>
-  </section>
-
-  <section id="product" class="product container">
-    <img src="https://i.ibb.co/7z6PcQn/earbuds1.jpg" alt="Earbuds product">
-    <div>
-      <h2>Model A — Signature Edition</h2>
-      <p class="price">US$45</p>
-      <ul class="features">
-        <li>Up to 24 hours playtime</li>
-        <li>Noise cancellation</li>
-        <li>Fast charging case</li>
-        <li>Ergonomic fit</li>
-      </ul>
-      <p>Classic styling with modern performance. Tuned for warm mids and tight bass — perfect for daily listening.</p>
-      <a class="btn primary" href="https://wa.me/923469531271" target="_blank">Order on WhatsApp</a>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="slide"><img src="https://i.postimg.cc/8PqztC44/earbuds-1.jpg" alt="Earbuds 1"></div>
+    <div class="slide"><img src="https://i.postimg.cc/yxHYt9hV/earbuds-2.jpg" alt="Earbuds 2"></div>
+    <div class="slide"><img src="https://i.postimg.cc/7Lb0R5sF/earbuds-3.jpg" alt="Earbuds 3"></div>
+    <div class="hero-text">
+      <h1>Premium TWS Earbuds</h1>
+      <p>Experience true freedom with crystal-clear sound and all-day comfort.</p>
+      <a href="#products" class="btn primary">Explore Now</a>
+      <a href="https://wa.me/923469531271" target="_blank" class="btn secondary">WhatsApp Us</a>
     </div>
   </section>
 
-  <footer>
-    © <span id="year"></span> Brand Store — All Rights Reserved
+  <!-- Products -->
+  <section class="products" id="products">
+    <h2>Our Earbuds Collection</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="https://i.postimg.cc/8PqztC44/earbuds-1.jpg" alt="Model A">
+        <h3>Model A</h3>
+        <p>✔ 24 hours battery backup<br>✔ Comfortable in-ear design<br>✔ Deep bass & HD sound<br>✔ Bluetooth 5.0 with stable connectivity</p>
+        <a href="https://wa.me/923469531271" target="_blank" class="btn primary">Order on WhatsApp</a>
+      </div>
+      <div class="card">
+        <img src="https://i.postimg.cc/yxHYt9hV/earbuds-2.jpg" alt="Model B">
+        <h3>Model B</h3>
+        <p>✔ Advanced noise cancellation<br>✔ Water and sweat resistant<br>✔ Stylish charging case<br>✔ Quick pairing & voice assistant support</p>
+        <a href="https://wa.me/923469531271" target="_blank" class="btn primary">Order on WhatsApp</a>
+      </div>
+      <div class="card">
+        <img src="https://i.postimg.cc/7Lb0R5sF/earbuds-3.jpg" alt="Model C">
+        <h3>Model C</h3>
+        <p>✔ Premium sound quality<br>✔ Fast charging support<br>✔ Ergonomic futuristic design<br>✔ Long-lasting comfort for daily use</p>
+        <a href="https://wa.me/923469531271" target="_blank" class="btn primary">Order on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="container">
+      <div class="col">
+        <h4>Brand Store</h4>
+        <p>Delivering high-quality earbuds designed for style, comfort, and performance.</p>
+      </div>
+      <div class="col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#products">Products</a></li>
+          <li><a href="https://wa.me/923469531271" target="_blank">Order on WhatsApp</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:info@brandstore.com">info@brandstore.com</a></li>
+          <li><a href="https://wa.me/923469531271" target="_blank">+92 346 9531271</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">© <span id="year"></span> Brand Store — All Rights Reserved</div>
   </footer>
 
-  <a class="floating-ws" href="https://wa.me/923469531271" target="_blank">💬</a>
+  <!-- WhatsApp Floating -->
+  <a class="whatsapp-btn" href="https://wa.me/923469531271" target="_blank">💬</a>
 
   <script>
-    // Slider autoplay
+    // Slider
     let slides=document.querySelectorAll(".slide"),i=0;
     function showSlide(n){slides.forEach((s,j)=>s.style.display=j===n?"block":"none")}
     showSlide(0);
     setInterval(()=>{i=(i+1)%slides.length;showSlide(i)},4000);
+
+    // Footer year
     document.getElementById("year").textContent=new Date().getFullYear();
   </script>
+
 </body>
 </html>
