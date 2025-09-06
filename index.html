@@ -1,208 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brand Store - TWS Earbuds</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Brand Store — Classic TWS Earbuds</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
+    :root{
+      --bg:#f7f5f2;
+      --paper:#ffffff;
+      --accent:#0b3d91;
+      --muted:#6b6b6b;
+      --radius:12px;
+      --shadow: 0 6px 18px rgba(11,61,145,0.08);
     }
-
-    body {
-      background-color: #0d0d0d;
-      color: #fff;
-    }
-
-    header {
-      background: #111;
-      padding: 20px;
-      text-align: center;
-      font-size: 26px;
-      font-weight: bold;
-      color: #00ffcc;
-      letter-spacing: 2px;
-    }
-
-    /* Slider */
-    .slider {
-      width: 100%;
-      height: 400px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .slides {
-      display: flex;
-      width: 300%;
-      height: 100%;
-      animation: slide 12s infinite;
-    }
-
-    .slides img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    @keyframes slide {
-      0% { margin-left: 0; }
-      30% { margin-left: 0; }
-      35% { margin-left: -100%; }
-      65% { margin-left: -100%; }
-      70% { margin-left: -200%; }
-      100% { margin-left: -200%; }
-    }
-
-    /* Product Section */
-    .product {
-      padding: 40px;
-      text-align: center;
-    }
-
-    .product h2 {
-      font-size: 30px;
-      margin-bottom: 15px;
-      color: #00ffcc;
-    }
-
-    .product p {
-      font-size: 18px;
-      color: #ccc;
-      margin-bottom: 20px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .shopping-box {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .box {
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 15px;
-      width: 280px;
-      text-align: center;
-      box-shadow: 0px 0px 15px rgba(0, 255, 204, 0.3);
-      transition: 0.3s;
-    }
-
-    .box:hover {
-      transform: scale(1.05);
-    }
-
-    .box img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-
-    .box h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .box button {
-      background: #00ffcc;
-      color: #000;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: 0.3s;
-    }
-
-    .box button:hover {
-      background: #00bfa5;
-    }
-
-    /* WhatsApp Button */
-    .whatsapp-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25D366;
-      color: white;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 30px;
-      text-decoration: none;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
-    }
-
-    /* Footer */
-    footer {
-      background: #111;
-      padding: 20px;
-      text-align: center;
-      margin-top: 40px;
-      color: #888;
-    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#111;font-family:Inter,Arial,sans-serif;line-height:1.5}
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+    header{background:#fff;box-shadow:var(--shadow);position:sticky;top:0;z-index:50}
+    header .container{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+    .brand{font-size:22px;font-weight:700;color:var(--accent)}
+    nav a{margin:0 10px;color:var(--muted);text-decoration:none;font-weight:600}
+    .hero{padding:40px 0;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+    .hero h1{font-size:32px;color:var(--accent);margin-bottom:10px}
+    .subtitle{color:var(--muted);margin-bottom:20px}
+    .btn{padding:12px 18px;border-radius:8px;font-weight:600;text-decoration:none;display:inline-block;margin-right:10px}
+    .btn.primary{background:var(--accent);color:#fff}
+    .btn.ghost{border:1px solid var(--accent);color:var(--accent);background:transparent}
+    .slider{border-radius:12px;overflow:hidden;box-shadow:var(--shadow);position:relative}
+    .slide{display:none}
+    .slide img{width:100%;display:block}
+    .product{padding:40px 0;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+    .product img{width:100%;border-radius:12px;box-shadow:var(--shadow)}
+    .price{font-size:20px;font-weight:700;margin:10px 0;color:#222}
+    .features{list-style:disc;padding-left:20px;margin:10px 0;color:var(--muted)}
+    footer{text-align:center;padding:20px;color:var(--muted);margin-top:40px;background:#fff;box-shadow:var(--shadow)}
+    .floating-ws{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;font-size:24px;
+      width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 6px 20px rgba(0,0,0,.2);text-decoration:none}
+    @media(max-width:768px){.hero,.product{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-
-  <header>Brand Store - TWS Earbuds</header>
-
-  <!-- Slider -->
-  <div class="slider">
-    <div class="slides">
-      <img src="https://images.unsplash.com/photo-1618365908648-6b8a29f4e933" alt="Earbuds 1">
-      <img src="https://images.unsplash.com/photo-1606813902911-9a6e1d2b74a2" alt="Earbuds 2">
-      <img src="https://images.unsplash.com/photo-1606220838311-c78b7a4a0d67" alt="Earbuds 3">
+  <header>
+    <div class="container">
+      <div class="brand">Brand Store</div>
+      <nav>
+        <a href="#product">Product</a>
+        <a href="#details">Details</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <!-- Product Details -->
-  <section class="product">
-    <h2>Premium TWS Earbuds</h2>
-    <p>Experience the best sound quality with our premium TWS earbuds. Long battery life, noise cancellation, and stylish design to enhance your music journey.</p>
-
-    <!-- Shopping Box -->
-    <div class="shopping-box">
-      <div class="box">
-        <img src="https://images.unsplash.com/photo-1618365908648-6b8a29f4e933" alt="Earbuds A">
-        <h3>Model A</h3>
-        <p>High quality sound with 24hr battery life.</p>
-        <button>Buy Now</button>
-      </div>
-
-      <div class="box">
-        <img src="https://images.unsplash.com/photo-1606813902911-9a6e1d2b74a2" alt="Earbuds B">
-        <h3>Model B</h3>
-        <p>Noise cancellation and ultra comfort fit.</p>
-        <button>Buy Now</button>
-      </div>
-
-      <div class="box">
-        <img src="https://images.unsplash.com/photo-1606220838311-c78b7a4a0d67" alt="Earbuds C">
-        <h3>Model C</h3>
-        <p>Crystal clear bass with modern design.</p>
-        <button>Buy Now</button>
-      </div>
+  <section class="hero container">
+    <div>
+      <h1>Classic Premium TWS Earbuds</h1>
+      <p class="subtitle">Elegant design • Rich sound • Long battery life</p>
+      <a class="btn primary" href="https://wa.me/923469531271" target="_blank">Buy Now</a>
+      <a class="btn ghost" href="#product">See Details</a>
+    </div>
+    <div class="slider">
+      <div class="slide"><img src="https://i.ibb.co/7z6PcQn/earbuds1.jpg" alt="Earbuds 1"></div>
+      <div class="slide"><img src="https://i.ibb.co/tz0tb9z/earbuds2.jpg" alt="Earbuds 2"></div>
+      <div class="slide"><img src="https://i.ibb.co/d23jsn3/earbuds3.jpg" alt="Earbuds 3"></div>
     </div>
   </section>
 
-  <!-- WhatsApp Button -->
-  <a class="whatsapp-btn" href="https://wa.me/923469531271" target="_blank">💬</a>
+  <section id="product" class="product container">
+    <img src="https://i.ibb.co/7z6PcQn/earbuds1.jpg" alt="Earbuds product">
+    <div>
+      <h2>Model A — Signature Edition</h2>
+      <p class="price">US$45</p>
+      <ul class="features">
+        <li>Up to 24 hours playtime</li>
+        <li>Noise cancellation</li>
+        <li>Fast charging case</li>
+        <li>Ergonomic fit</li>
+      </ul>
+      <p>Classic styling with modern performance. Tuned for warm mids and tight bass — perfect for daily listening.</p>
+      <a class="btn primary" href="https://wa.me/923469531271" target="_blank">Order on WhatsApp</a>
+    </div>
+  </section>
 
-  <!-- Footer -->
   <footer>
-    © 2025 Brand Store | All Rights Reserved
+    © <span id="year"></span> Brand Store — All Rights Reserved
   </footer>
 
+  <a class="floating-ws" href="https://wa.me/923469531271" target="_blank">💬</a>
+
+  <script>
+    // Slider autoplay
+    let slides=document.querySelectorAll(".slide"),i=0;
+    function showSlide(n){slides.forEach((s,j)=>s.style.display=j===n?"block":"none")}
+    showSlide(0);
+    setInterval(()=>{i=(i+1)%slides.length;showSlide(i)},4000);
+    document.getElementById("year").textContent=new Date().getFullYear();
+  </script>
 </body>
-  </html>
+</html>
