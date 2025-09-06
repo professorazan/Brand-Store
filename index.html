@@ -1,160 +1,307 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brand Store - TWS Earbuds</title>
-  <style>
-    :root {
-      --bg: #ffffff;
-      --card: #f9f9f9;
-      --accent: #0066cc;
-      --text: #333;
-      --muted: #666;
-      --radius: 14px;
-      --shadow: 0 6px 18px rgba(0,0,0,0.08);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Brand Store — TWS Earbuds</title>
+<style>
+  :root{
+    --bg:#ffffff; --card:#f8f9fb; --accent:#0077cc; --muted:#6b7280;
+    --radius:14px; --shadow: 0 10px 30px rgba(16,24,40,0.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:var(--bg);color:#111;line-height:1.5}
+  .container{max-width:1100px;margin:0 auto;padding:0 20px}
 
-    /* Header */
-    header{background:#fff;padding:18px 20px;box-shadow:var(--shadow);position:sticky;top:0;z-index:50}
-    header .brand{font-size:24px;font-weight:bold;color:var(--accent)}
-    header nav{float:right}
-    header nav a{color:var(--text);margin-left:18px;text-decoration:none;font-weight:600}
-    header nav a:hover{color:var(--accent)}
+  /* header */
+  header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .brand{font-weight:700;color:var(--accent);font-size:22px}
+  nav a{margin-left:18px;color:var(--muted);text-decoration:none;font-weight:600}
+  nav a:hover{color:var(--accent)}
 
-    /* Hero Slider */
-    .hero{position:relative;overflow:hidden}
-    .slide{display:none}
-    .slide img{width:100%;height:400px;object-fit:cover;display:block;border-radius:0 0 var(--radius) var(--radius)}
-    .hero-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;background:rgba(255,255,255,0.8);padding:20px;border-radius:var(--radius)}
-    .hero-text h1{font-size:32px;color:var(--accent);margin-bottom:10px}
-    .hero-text p{color:var(--text);margin-bottom:20px}
-    .btn{padding:12px 20px;border-radius:var(--radius);text-decoration:none;font-weight:600;cursor:pointer}
-    .btn.primary{background:var(--accent);color:#fff;margin-right:10px}
-    .btn.secondary{border:1px solid var(--accent);color:var(--accent);background:#fff}
+  /* HERO / SLIDER */
+  .hero{position:relative;margin-top:6px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  .slides{position:relative;height:420px;background:linear-gradient(180deg,#fff,#f3f6fb)}
+  .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;transform:scale(1.02);transition:opacity .8s ease,transform .8s ease}
+  .slide.active{opacity:1;transform:scale(1)}
+  /* text overlay */
+  .hero-content{position:absolute;left:30px;top:50%;transform:translateY(-50%);max-width:48%;background:rgba(255,255,255,0.86);backdrop-filter:blur(2px);padding:20px;border-radius:12px;box-shadow:0 8px 24px rgba(16,24,40,0.04)}
+  .hero-content h1{margin:0 0 8px;font-size:28px;color:var(--accent)}
+  .hero-content p{margin:0 0 14px;color:var(--muted)}
+  .btn{display:inline-block;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:700;cursor:pointer}
+  .btn.primary{background:var(--accent);color:#fff;margin-right:8px}
+  .btn.ghost{border:1px solid var(--accent);color:var(--accent);background:transparent}
 
-    /* Product Section */
-    .products{padding:60px 20px;max-width:1100px;margin:auto}
-    .products h2{text-align:center;margin-bottom:30px;font-size:28px;color:var(--accent)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-    .card{background:var(--card);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow);transition:transform .3s}
-    .card:hover{transform:translateY(-5px)}
-    .card img{width:100%;border-radius:var(--radius);margin-bottom:15px}
-    .card h3{margin-bottom:8px;color:var(--accent)}
-    .card p{color:var(--muted);margin-bottom:12px;font-size:14px}
+  /* slider controls */
+  .controls{position:absolute;right:20px;bottom:18px;display:flex;gap:8px}
+  .dot{width:10px;height:10px;border-radius:999px;background:#e6eefc;border:1px solid #dbeafe;cursor:pointer;opacity:.9}
+  .dot.active{background:var(--accent);box-shadow:0 4px 12px rgba(0,119,204,0.18)}
 
-    /* Footer */
-    footer{background:#f1f1f1;padding:30px 20px;margin-top:40px}
-    footer .container{max-width:1100px;margin:auto;display:flex;justify-content:space-between;flex-wrap:wrap}
-    footer .col{flex:1;min-width:200px;margin:10px 0}
-    footer h4{color:var(--accent);margin-bottom:10px}
-    footer ul{list-style:none}
-    footer ul li{margin-bottom:6px}
-    footer ul li a{color:var(--text);text-decoration:none}
-    footer ul li a:hover{color:var(--accent)}
-    footer .bottom{text-align:center;color:var(--muted);margin-top:20px;font-size:14px}
+  .arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.9);border-radius:10px;padding:8px;box-shadow:0 6px 20px rgba(16,24,40,0.06);cursor:pointer}
+  .arrow.left{left:12px}
+  .arrow.right{right:12px}
 
-    /* WhatsApp Button */
-    .whatsapp-btn{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;
-      border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;
-      font-size:28px;text-decoration:none;box-shadow:0 0 15px rgba(0,0,0,.3)}
+  /* PRODUCTS */
+  .products{padding:48px 0}
+  .products h2{text-align:center;color:var(--accent);margin-bottom:24px;font-size:24px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+  .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);text-align:left;display:flex;flex-direction:column;gap:12px}
+  .thumb{width:100%;aspect-ratio:16/10;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#fff,#eef6ff)}
+  .card h3{margin:0;color:var(--accent);font-size:18px}
+  .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.4}
+  .card .actions{margin-top:auto;display:flex;gap:10px}
 
-    @media(max-width:768px){
-      .hero-text h1{font-size:22px}
-      .hero-text p{font-size:13px}
-      .slide img{height:250px}
-    }
-  </style>
+  /* footer */
+  footer{background:#f6f8fb;padding:26px 0;margin-top:28px}
+  .fcols{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  .fcol{min-width:180px}
+  footer h4{margin:0 0 8px;color:var(--accent)}
+  footer a{color:var(--muted);text-decoration:none}
+  .copyright{text-align:center;color:var(--muted);margin-top:18px;font-size:13px}
+
+  /* float whatsapp */
+  .wa{position:fixed;right:18px;bottom:18px;background:#25D366;color:#fff;width:58px;height:58px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:800;text-decoration:none;box-shadow:0 8px 30px rgba(37,211,102,0.18)}
+
+  /* responsive */
+  @media (max-width:900px){
+    .hero-content{left:16px;right:16px;max-width:calc(100% - 32px)}
+    .slides{height:300px}
+  }
+  @media (max-width:520px){
+    .slides{height:240px}
+    .hero-content h1{font-size:20px}
+    .hero-content p{font-size:13px}
+  }
+</style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div class="brand">Brand Store</div>
+      <nav aria-label="Main navigation">
+        <a href="#products">Products</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+  </div>
 
-  <!-- Header -->
-  <header>
-    <div class="brand">Brand Store</div>
-    <nav>
-      <a href="#products">Products</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
-  <!-- Hero -->
+  <!-- Hero slider with inline SVG slides (no external images) -->
   <section class="hero">
-    <div class="slide"><img src="https://i.postimg.cc/8PqztC44/earbuds-1.jpg" alt="Earbuds 1"></div>
-    <div class="slide"><img src="https://i.postimg.cc/yxHYt9hV/earbuds-2.jpg" alt="Earbuds 2"></div>
-    <div class="slide"><img src="https://i.postimg.cc/7Lb0R5sF/earbuds-3.jpg" alt="Earbuds 3"></div>
-    <div class="hero-text">
-      <h1>Premium TWS Earbuds</h1>
-      <p>Experience true freedom with crystal-clear sound and all-day comfort.</p>
-      <a href="#products" class="btn primary">Explore Now</a>
-      <a href="https://wa.me/923469531271" target="_blank" class="btn secondary">WhatsApp Us</a>
+    <div class="slides" id="slides">
+      <!-- Slide 1 -->
+      <div class="slide active" data-index="0" aria-hidden="false">
+        <!-- inline SVG background art (earbud illustration) -->
+        <svg width="100%" height="100%" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Earbuds slide">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#f5fbff"/>
+              <stop offset="1" stop-color="#e8f2ff"/>
+            </linearGradient>
+            <linearGradient id="g2" x1="0" x2="1">
+              <stop offset="0" stop-color="#dbefff"/>
+              <stop offset="1" stop-color="#ffffff"/>
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#g1)"/>
+          <!-- left decorative circle -->
+          <circle cx="160" cy="120" r="90" fill="#eef7ff" />
+          <!-- earbud illustration right -->
+          <g transform="translate(750,140) scale(1.22)">
+            <ellipse cx="80" cy="160" rx="120" ry="160" fill="#ffffff" stroke="#d2e9ff" stroke-width="6"/>
+            <circle cx="70" cy="110" r="38" fill="#f0f6ff"/>
+            <rect x="38" y="220" rx="18" ry="18" width="70" height="16" fill="#dff2ff"/>
+          </g>
+          <!-- foreground product image as stylized case -->
+          <g transform="translate(320,200) scale(1)">
+            <rect x="0" y="0" rx="26" ry="26" width="360" height="200" fill="url(#g2)" stroke="#d7eaff"/>
+            <circle cx="90" cy="100" r="36" fill="#ffffff" stroke="#cfe8ff"/>
+            <circle cx="270" cy="100" r="36" fill="#ffffff" stroke="#cfe8ff"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide" data-index="1" aria-hidden="true">
+        <svg width="100%" height="100%" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Earbuds slide 2">
+          <defs>
+            <linearGradient id="g3" x1="0" x2="1"><stop offset="0" stop-color="#fff7f2"/><stop offset="1" stop-color="#fdf3ec"/></linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#g3)"/>
+          <g transform="translate(150,160)">
+            <rect x="0" y="0" rx="22" ry="22" width="420" height="240" fill="#fff" stroke="#fde6d6"/>
+            <circle cx="120" cy="120" r="46" fill="#fff8f4" stroke="#ffe7d0"/>
+            <circle cx="300" cy="120" r="46" fill="#fff8f4" stroke="#ffe7d0"/>
+            <path d="M30 220 q160 -40 300 0" fill="none" stroke="#ffe9cf" stroke-width="6" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide" data-index="2" aria-hidden="true">
+        <svg width="100%" height="100%" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Earbuds slide 3">
+          <defs>
+            <linearGradient id="g4" x1="0" x2="1"><stop offset="0" stop-color="#f3fff9"/><stop offset="1" stop-color="#e8fff0"/></linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#g4)"/>
+          <g transform="translate(220,140)">
+            <rect x="0" y="40" rx="30" ry="30" width="520" height="260" fill="#ffffff" stroke="#dff7ee"/>
+            <ellipse cx="140" cy="170" rx="52" ry="56" fill="#ffffff" stroke="#e6faf0"/>
+            <ellipse cx="400" cy="170" rx="52" ry="56" fill="#ffffff" stroke="#e6faf0"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- overlay text + CTA -->
+      <div class="hero-content" aria-hidden="false">
+        <h1>Premium TWS Earbuds</h1>
+        <p>Comfortable fit • Clear sound • All-day use — Order now through WhatsApp</p>
+        <div>
+          <a class="btn primary" href="https://wa.me/923469531271" target="_blank" rel="noopener">Order on WhatsApp</a>
+          <a class="btn ghost" href="#products">See products</a>
+        </div>
+      </div>
+
+      <!-- arrows -->
+      <button class="arrow left" id="prev" aria-label="Previous slide">‹</button>
+      <button class="arrow right" id="next" aria-label="Next slide">›</button>
+
+      <!-- dots -->
+      <div class="controls" id="dots" aria-hidden="false" style="right:18px;bottom:18px;"></div>
     </div>
   </section>
 
-  <!-- Products -->
-  <section class="products" id="products">
+  <!-- Products with inline SVG thumbnails (no external assets) -->
+  <main class="container products" id="products">
     <h2>Our Earbuds Collection</h2>
     <div class="grid">
-      <div class="card">
-        <img src="https://i.postimg.cc/8PqztC44/earbuds-1.jpg" alt="Model A">
-        <h3>Model A</h3>
-        <p>✔ 24 hours battery backup<br>✔ Comfortable in-ear design<br>✔ Deep bass & HD sound<br>✔ Bluetooth 5.0 with stable connectivity</p>
-        <a href="https://wa.me/923469531271" target="_blank" class="btn primary">Order on WhatsApp</a>
-      </div>
-      <div class="card">
-        <img src="https://i.postimg.cc/yxHYt9hV/earbuds-2.jpg" alt="Model B">
-        <h3>Model B</h3>
-        <p>✔ Advanced noise cancellation<br>✔ Water and sweat resistant<br>✔ Stylish charging case<br>✔ Quick pairing & voice assistant support</p>
-        <a href="https://wa.me/923469531271" target="_blank" class="btn primary">Order on WhatsApp</a>
-      </div>
-      <div class="card">
-        <img src="https://i.postimg.cc/7Lb0R5sF/earbuds-3.jpg" alt="Model C">
-        <h3>Model C</h3>
-        <p>✔ Premium sound quality<br>✔ Fast charging support<br>✔ Ergonomic futuristic design<br>✔ Long-lasting comfort for daily use</p>
-        <a href="https://wa.me/923469531271" target="_blank" class="btn primary">Order on WhatsApp</a>
-      </div>
-    </div>
-  </section>
+      <article class="card">
+        <div class="thumb" aria-hidden="true">
+          <!-- small svg thumbnail -->
+          <svg width="100%" height="100%" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" fill="#eef7ff"/>
+            <circle cx="85" cy="100" r="36" fill="#fff" stroke="#d8ecff"/>
+            <circle cx="235" cy="100" r="36" fill="#fff" stroke="#d8ecff"/>
+          </svg>
+        </div>
+        <h3>Model A — Signature</h3>
+        <p>✔ Up to 24 hours battery life (with case)<br>✔ Balanced sound profile with warm mids<br>✔ Comfortable in-ear fit for long use<br>✔ Bluetooth 5.1 with stable pairing</p>
+        <div class="actions"><a class="btn primary" href="https://wa.me/923469531271" target="_blank">Order on WhatsApp</a></div>
+      </article>
 
-  <!-- Footer -->
+      <article class="card">
+        <div class="thumb" aria-hidden="true">
+          <svg width="100%" height="100%" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" fill="#fff9f0"/>
+            <circle cx="85" cy="100" r="36" fill="#fff" stroke="#ffedd6"/>
+            <circle cx="235" cy="100" r="36" fill="#fff" stroke="#ffedd6"/>
+          </svg>
+        </div>
+        <h3>Model B — ANC</h3>
+        <p>✔ Advanced noise cancellation for clear calls<br>✔ IPX4 water & sweat resistance<br>✔ Fast-charging case (15 min → hours of playback)<br>✔ Touch controls & voice assistant support</p>
+        <div class="actions"><a class="btn primary" href="https://wa.me/923469531271" target="_blank">Order on WhatsApp</a></div>
+      </article>
+
+      <article class="card">
+        <div class="thumb" aria-hidden="true">
+          <svg width="100%" height="100%" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" fill="#f3fff8"/>
+            <circle cx="85" cy="100" r="36" fill="#fff" stroke="#dffbed"/>
+            <circle cx="235" cy="100" r="36" fill="#fff" stroke="#dffbed"/>
+          </svg>
+        </div>
+        <h3>Model C — Pro</h3>
+        <p>✔ Premium audio tuning for detailed soundstage<br>✔ Low-latency mode for gaming<br>✔ Ergonomic lightweight design<br>✔ Long-lasting comfort and durable build</p>
+        <div class="actions"><a class="btn primary" href="https://wa.me/923469531271" target="_blank">Order on WhatsApp</a></div>
+      </article>
+    </div>
+  </main>
+
+  <!-- footer -->
   <footer id="contact">
     <div class="container">
-      <div class="col">
-        <h4>Brand Store</h4>
-        <p>Delivering high-quality earbuds designed for style, comfort, and performance.</p>
+      <div class="fcols">
+        <div class="fcol">
+          <h4>Brand Store</h4>
+          <p style="color:var(--muted)">High-quality earbuds focused on comfort, sound and style. Order via WhatsApp for fastest response.</p>
+        </div>
+        <div class="fcol">
+          <h4>Quick Links</h4>
+          <p><a href="#products">Products</a> • <a href="https://wa.me/923469531271">Order on WhatsApp</a></p>
+        </div>
+        <div class="fcol">
+          <h4>Contact</h4>
+          <p style="color:var(--muted)">+92 346 9531271<br><a href="mailto:info@brandstore.com">info@brandstore.com</a></p>
+        </div>
       </div>
-      <div class="col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#products">Products</a></li>
-          <li><a href="https://wa.me/923469531271" target="_blank">Order on WhatsApp</a></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="mailto:info@brandstore.com">info@brandstore.com</a></li>
-          <li><a href="https://wa.me/923469531271" target="_blank">+92 346 9531271</a></li>
-        </ul>
-      </div>
+      <div class="copyright">© <span id="yr"></span> Brand Store — All rights reserved</div>
     </div>
-    <div class="bottom">© <span id="year"></span> Brand Store — All Rights Reserved</div>
   </footer>
 
-  <!-- WhatsApp Floating -->
-  <a class="whatsapp-btn" href="https://wa.me/923469531271" target="_blank">💬</a>
+  <a class="wa" href="https://wa.me/923469531271" target="_blank" aria-label="WhatsApp">💬</a>
 
-  <script>
-    // Slider
-    let slides=document.querySelectorAll(".slide"),i=0;
-    function showSlide(n){slides.forEach((s,j)=>s.style.display=j===n?"block":"none")}
-    showSlide(0);
-    setInterval(()=>{i=(i+1)%slides.length;showSlide(i)},4000);
+<script>
+  // Slider logic (robust + accessible)
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dotsWrap = document.getElementById('dots');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    let index = 0;
+    let interval = null;
+    const AUTO_MS = 4200;
 
-    // Footer year
-    document.getElementById("year").textContent=new Date().getFullYear();
-  </script>
+    // create dots
+    slides.forEach((s,i)=>{
+      const dot = document.createElement('button');
+      dot.className = 'dot' + (i===0 ? ' active' : '');
+      dot.setAttribute('aria-label','Go to slide ' + (i+1));
+      dot.addEventListener('click', ()=>{ goTo(i); resetAuto(); });
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.children);
 
+    function show(i){
+      slides.forEach((s,idx)=>{
+        s.classList.toggle('active', idx === i);
+        s.setAttribute('aria-hidden', idx === i ? 'false' : 'true');
+      });
+      dots.forEach((d,idx)=> d.classList.toggle('active', idx === i));
+      index = i;
+    }
+
+    function goTo(i){
+      const n = (i + slides.length) % slides.length;
+      show(n);
+    }
+
+    prevBtn.addEventListener('click', ()=>{ goTo(index - 1); resetAuto(); });
+    nextBtn.addEventListener('click', ()=>{ goTo(index + 1); resetAuto(); });
+
+    function startAuto(){
+      interval = setInterval(()=> goTo(index + 1), AUTO_MS);
+    }
+    function resetAuto(){
+      clearInterval(interval);
+      startAuto();
+    }
+
+    // keyboard support
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowLeft') { goTo(index - 1); resetAuto(); }
+      if(e.key === 'ArrowRight') { goTo(index + 1); resetAuto(); }
+    });
+
+    show(0);
+    startAuto();
+
+    // Year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // If you want to replace an inline SVG with a real photo:
+    // simply replace the <svg> inside a .slide with:
+    // <img src="YOUR_IMAGE_URL" alt="..."> 
+    // and ensure the image URL is hosted on a reliable CDN.
+  });
+</script>
 </body>
 </html>
